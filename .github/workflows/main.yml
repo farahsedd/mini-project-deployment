@@ -28,12 +28,3 @@ jobs:
         kubectl apply -f deployment.yaml
     - name: Expose Service
       run: kubectl apply -f service.yaml
-    - name: Check Pod Status
-      run: kubectl get pods
-    - name: Check Pod Logs
-      run: kubectl logs <pod-name>
-    - name: Port Forward Service
-      run: kubectl port-forward svc/password-generator-service 8080:80
-
-
-
