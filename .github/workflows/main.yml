@@ -17,7 +17,23 @@ jobs:
       run: |
         docker build -t farahseddik/password-generator:latest .
         docker push farahseddik/password-generator:latest
-    - name: Deploy to Kubernetes
+    - name: Set up Kind
+      run: |
+        curl -Lo kind https://kind.sigs.k8s.io/dl/v0.19.0/kind-linux-amd64
+        chmod +x kind
+        mv kind /usr/local/bin/kind
+        kind create cluster --name my-cluster
+    - name: Deploy to local Kubernetes (Kind)
       run: |
         kubectl apply -f deployment.yaml
-        kubectl apply -f service.yaml
+    - name: Expose Service
+      run: kubectl apply -f service.yaml
+    - name: Check Pod Status
+      run: kubectl get pods
+    - name: Check Pod Logs
+      run: kubectl logs <pod-name>
+    - name: Port Forward Service
+      run: kubectl port-forward svc/password-generator-service 8080:80
+
+
+
