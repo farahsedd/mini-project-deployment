@@ -2,8 +2,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: password-generator
+  namespace: default  
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: password-generator
@@ -14,12 +15,6 @@ spec:
     spec:
       containers:
       - name: password-generator
-        image: farahseddik/password-generator:latest
+        image: password-generator:latest
         ports:
-        - containerPort: 80
-        readinessProbe:
-          httpGet:
-            path: /
-            port: 80
-          initialDelaySeconds: 3
-          periodSeconds: 5
+        - containerPort: 8080
