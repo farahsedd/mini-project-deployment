@@ -31,3 +31,22 @@ jobs:
     - name: Rollback deployment in case of failure
       if: failure()
       run: kubectl rollout undo deployment/password-generator
+    - name: Record deployment frequency
+      run: echo "Deployment occurred at $(date)" >> deployment-frequency.log
+    - name: Record lead time
+      run: echo "Deployment started at $(date)" >> lead-time.log
+    - name: Calculate failure rate
+      run: |
+        if [ "$?" -ne 0 ]; then
+          echo "Change failed" >> failure-rate.log
+        else
+          echo "Change successful" >> success-rate.log
+        fi
+    - name: Measure restore time
+      run: |
+        start_time=$(date +%s)
+        # Trigger a rollback or fix the issue
+        end_time=$(date +%s)
+        restore_time=$((end_time - start_time))
+        echo "Restore time: $restore_time seconds" >> restore-time.log
+
