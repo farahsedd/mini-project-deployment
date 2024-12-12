@@ -28,3 +28,6 @@ jobs:
         kubectl apply -f k8s/deployment.yaml
     - name: Expose Service
       run: kubectl apply -f k8s/service.yaml
+    - name: Rollback deployment in case of failure
+      if: failure()
+      run: kubectl rollout undo deployment/password-generator
