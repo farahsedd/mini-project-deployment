@@ -25,6 +25,6 @@ jobs:
         kind create cluster --name my-cluster
     - name: Deploy to local Kubernetes (Kind)
       run: |
-        kubectl apply -f /k8s/deployment.yaml
+        kubectl apply -f k8s/deployment.yaml
     - name: Expose Service
-      run: kubectl apply -f /k8s/service.yaml
+      run: kubectl apply -f k8s/service.yaml
